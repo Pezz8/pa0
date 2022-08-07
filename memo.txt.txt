@@ -1,0 +1,121 @@
+1.
+
+During the development of this program I was able to learn to implemnt HashMaps and
+Object arrays. At first it was a little confusing implementing the classess together. However,
+after taking a step back it made sense. I had some trouble finding what triggered a 
+NullPointerExeption after spending some time I was able to succeed.
+
+I used IntelliJ IDEA Community Edition 2021.3.1 as my IDE. I run that on a Windows PC.
+
+I had to do a few tries to have it running on linux but I was able to use the tester successfully.
+
+2.
+
+Single pass on the array is O(N) and the time complexity for iterating through
+all the values in a HashMap is O(N). 
+Therefore, the time complexity of the entire process is O(N^2).
+
+
+// find the user with the most sighting on this line
+    public Usage findMaxUsage(){
+        Usage user = new Usage("<NONE>", 0);
+        Integer maxCount = 0;
+        if(this.userUsage == null){
+            user.setUser("<NONE>");
+            user.setCount(0);
+        }
+        else {
+            for (Map.Entry mapElement : this.userUsage.entrySet()) { // loop through each element of the map O(N)
+                if ((int) mapElement.getValue() > maxCount) {
+                    maxCount = (int) mapElement.getValue();
+                    user.setUser((String) mapElement.getKey());
+                    user.setCount(maxCount);
+                }
+            }
+        }
+        return user;
+    }
+
+
+// given loaded lines array, generate report on lines
+    void generateReport(){
+        Usage maxUser = new Usage("",0);
+        System.out.println("Terminal\t" + "Most Common User\t" + "Count");
+        for (int i = 0; i < this.lineUsages.length; i++){ // loop through each element of the array of Objects O(N)
+            if(this.lineUsages[i] == null){
+                System.out.println(i + "\t" + "<NONE>\t" + 0);
+            }
+            else {
+                maxUser = this.lineUsages[i].findMaxUsage();
+                System.out.println(i + "\t" + maxUser.getUser() + "\t" + maxUser.getCount());
+            }
+        }
+    }
+
+3.
+
+cgua@pe15:~/cs310$ cd pa00_testing
+cgua@pe15:~/cs310/pa00_testing$ bash ./compile.sh
+
+//compile.sh
+#!/usr/bin/env bash
+
+mkdir -p classes
+# Find all java files in src directory
+java_files=$(find src -name "*.java")
+javac -cp lib/*:. -d classes $java_files
+
+cgua@pe15:~/cs310/pa00_testing$ bash ./run.sh
+
+//run.sh
+#!/usr/bin/env bash
+
+java -cp classes/:lib/* pa0.tests.RunTests 
+
+Running Test : Test Line Report Line 300 count (test_Real_report_line300_count)
+==> Score: 5.00 / 5.00
+Running Test : Test Line Report Line 433 count (test_Real_report_line433_count)
+==> Score: 5.00 / 5.00
+Running Test : Test Read Line Report Line 9 user (test_Real_report_line9_name)
+==> Score: 5.00 / 5.00
+Running Test : Test Read Line Report Line 9 count (test_Real_report_line9_count)
+==> Score: 5.00 / 5.00
+Running Test : Test Line Report Line 300 user (test_Real_report_line300_user)
+==> Score: 5.00 / 5.00
+Running Test : Test Line Report Line 433 user (test_Real_report_line433_user)
+==> Score: 5.00 / 5.00
+Running Test : Test Single Line Usage 1 (test_usage1)
+==> Score: 5.00 / 5.00
+Running Test : Test Single Line Usage 2 (test_usage2)
+==> Score: 5.00 / 5.00
+Running Test : Test Line Usage 3 (test_usage3)
+==> Score: 5.00 / 5.00
+Running Test : Test Line Usage 4 (test_usage4)
+==> Score: 5.00 / 5.00
+Passed: 10/10 tests.
+cgua@pe15:~/cs310/pa00_testing$ du
+8       ./test_cases
+2308    ./lib
+4       ./src/pa0/tests
+20      ./src/pa0
+68      ./src/com/gradescope/jh61b/grader
+32      ./src/com/gradescope/jh61b/junit
+108     ./src/com/gradescope/jh61b
+112     ./src/com/gradescope
+116     ./src/com
+140     ./src
+16      ./classes/pa0/tests
+36      ./classes/pa0
+52      ./classes/com/gradescope/jh61b/grader
+36      ./classes/com/gradescope/jh61b/junit
+92      ./classes/com/gradescope/jh61b
+96      ./classes/com/gradescope
+100     ./classes/com
+140     ./classes
+2624    .
+
+
+
+
+
+
